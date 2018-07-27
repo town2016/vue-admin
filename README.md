@@ -1,4 +1,4 @@
-# coach
+# vue-admin
 
 > A Vue.js project
 
