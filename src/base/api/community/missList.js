@@ -1,0 +1,101 @@
+export const formModel = [
+	
+	{
+		group:true,
+		label:'取消次数',
+		childs:[
+			{
+				elemType:'input',
+				prop:'minTimes',
+				placeholder:'请填写最小次数'
+			},
+			{
+				type:'append',
+				label:'到'
+			},
+			{
+				elemType:'input',
+				prop:'maxTimes',
+				placeholder:'请填写最大次数'
+			},
+		]
+	},
+	{
+		prop:'noticeType',
+		label:'关键词搜索',
+		group:true,
+		childs:[
+			{
+				prop:'sign',
+				elemType:'select',
+				col:'label',
+				colVal:'value',
+				classes:'noRadiusRight',
+				width:120,
+				options:[
+					{
+						label:'教练姓名',
+						value:0
+					},
+					{
+						label:'教练电话',
+						value:1
+					},
+					{
+						label:'驾校名称',
+						value:2
+					}
+				],
+				defaultValue:0
+			},{
+				prop:'keyword',
+				elemType:'input',
+				classes:'noRadiusLeft',
+				placeholder:'请输入...'
+			}
+		]
+	},
+]
+
+export const tableModel = [
+	{
+		type:'selection',
+		width:50,
+		align:'center'
+	},{
+		type:'index',
+		width:50,
+		align:'center'
+	},{
+		prop:'coachName',
+		label:'教练姓名',
+		align:'center',
+		width:180
+	},{
+		prop:'school',
+		label:'所属驾校',
+		align:'center',
+		width:180
+	},{
+		prop:'coachPhone',
+		label:'教练电话',
+		align:'center',
+		width:180
+	},{
+		prop:'remark',
+		label:'备注',
+		align:'center'
+	}
+	
+]
+
+export const tableData = [
+	{
+		id:'miss_1',
+		coachName:'张三',
+		school:'深圳深港驾校',
+		coachPhone:'167678273887',
+		remark:'爽约次数过多',
+		cancelCount:20
+	}
+]

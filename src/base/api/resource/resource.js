@@ -1,0 +1,301 @@
+
+
+
+export const students_formModel = [
+	{
+		group:true,
+		label:'学员查询',
+		elemType:'group',
+		childs:[
+			{
+				elemType:'select',
+				label:'请选择......',
+				prop:'types',
+				defaultValue:'',
+				col:'label',
+				colVal:'value',
+				width:109,
+				options:[
+					{label:'学员姓名',value:'shenzhen'},
+					{label:'学员电话',value:'dongguan'}
+				]
+			},
+			{
+				elemType:'input',
+				label:'请输入......',
+				prop:'content',
+				width:109,
+				defaultValue:''
+			}
+		]
+	},
+	{
+		elemType:'select',
+		label:'学车进度',
+		prop:'state',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'科目一',value:'shenzhen'},
+			{label:'科目二',value:'dongguan'},
+			{label:'科目三',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'select',
+		label:'驾考车型',
+		prop:'carType',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'A1',value:'A1'},
+			{label:'A2',value:'A2'},
+			{label:'C1',value:'C1'}
+		]
+	},
+	
+]
+
+
+export const students_tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		width:50
+	},
+	{
+		prop:'names',
+		label:'学员姓名',
+		width:180
+	},
+	{
+		prop:'subjectType',
+		label:'性别',
+		width:120
+	},
+	{
+		prop:'school',
+		label:'驾考类型',
+		width:180
+	},
+	{
+		prop:'address',
+		label:'驾考进度',
+		width:100
+	},
+	{
+		prop:'areas',
+		label:'联系电话',
+		width:120
+	},
+	{
+		prop:'city',
+		label:'所属城市',
+		width:200
+	},
+	{
+		prop:'tel',
+		label:'所属驾校',
+		width:200
+	},
+	{
+		prop:'state',
+		label:'身份证号',
+		width:200
+	},
+	{
+		prop:'remark',
+		label:'备注'
+	}
+]
+
+
+
+export const account_formModel = [
+	{
+		group:true,
+		label:'交易时间',
+		elemType:'group',
+		childs:[
+			{
+				elemType:'select',
+				label:'请选择......',
+				prop:'types',
+				defaultValue:'',
+				col:'label',
+				colVal:'value',
+				width:109,
+				options:[
+					{label:'全部',value:'all;'},
+					{label:'本月',value:'mouth'},
+					{label:'半年',value:'halfYear'},
+					{label:'一年',value:'year'}
+				]
+			},
+			{
+				elemType:'datetimerange',
+				label:'',
+				prop:'content',
+				defaultValue:''
+			}
+		]
+	},
+	{
+		elemType:'select',
+		label:'交易类型',
+		prop:'state',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'充值',value:'recharge'},
+			{label:'提现',value:'cash'},
+			{label:'奖励',value:'reward'},
+			{label:'支出',value:'pay'}
+		]
+	}
+	
+]
+
+
+export const account_tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		width:50
+	},
+	{
+		prop:'names',
+		label:'交易时间',
+	},
+	{
+		prop:'subjectType',
+		label:'交易类型',
+	},
+	{
+		prop:'school',
+		label:'交易对象',
+	},
+	{
+		prop:'address',
+		label:'金额',
+	},
+	{
+		prop:'areas',
+		label:'余额',
+	},
+	{
+		prop:'remark',
+		label:'备注'
+	}
+]
+
+
+export const integral_formModel = [
+	{
+		elemType:'select',
+		label:'所属城市',
+		prop:'city',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		width:109,
+		options:[
+			{label:'深圳',value:'shenzhen'},
+			{label:'东莞',value:'dongguan'},
+			{label:'广州',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'select',
+		label:'所属驾校',
+		prop:'driverSchool',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		width:109,
+		options:[
+			{label:'深港',value:'shenzhen'},
+			{label:'广仁',value:'dongguan'},
+			{label:'港安',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'input',
+		label:'高级搜索',
+		placeholder:'请输入考场名称搜索',
+		prop:'state',
+		defaultValue:'',
+	}
+	
+]
+
+export const integral_tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		width:50
+	},
+	{
+		prop:'names',
+		label:'积分类型',
+	},
+	{
+		prop:'subjectType',
+		label:'城市',
+	},
+	{
+		prop:'school',
+		label:'所属驾校',
+	},
+	{
+		prop:'address',
+		label:'剩余积分',
+	}
+	
+]
+
+export const integralDetail_tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		label:'序号',
+		width:50
+	},
+	{
+		prop:'names',
+		label:'积分类型',
+	},
+	
+	{
+		prop:'school',
+		label:'所属驾校',
+	},
+	{
+		prop:'subjectType',
+		label:'交易积分',
+	},
+	{
+		prop:'address',
+		label:'交易时间',
+	},
+	{
+		prop:'remark',
+		label:'备注',
+	}
+	
+]

@@ -1,0 +1,80 @@
+
+export const exam_formModel = [
+	{
+		elemType:'select',
+		label:'所属城市',
+		prop:'city',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'深圳',value:'shenzhen'},
+			{label:'东莞',value:'dongguan'},
+			{label:'广州',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'select',
+		label:'所属驾校',
+		prop:'driverSchool',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'深港',value:'shenzhen'},
+			{label:'广仁',value:'dongguan'},
+			{label:'港安',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'input',
+		label:'驾校搜索',
+		prop:'driverSchools',
+	}
+]
+
+
+export const exam_tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		width:50
+	},
+	{
+		prop:'names',
+		label:'考场名称',
+		width:180
+	},
+	{
+		prop:'subjectType',
+		label:'科目类型',
+		width:120
+	},
+	{
+		prop:'school',
+		label:'所属驾校',
+		width:180
+	},
+	{
+		prop:'address',
+		label:'地址'
+	},
+	{
+		prop:'areas',
+		label:'考场面积',
+		width:120
+	},
+	{
+		prop:'tel',
+		label:'联系电话',
+		width:200
+	},
+	{
+		prop:'state',
+		label:'使用状态'
+	},
+	
+]

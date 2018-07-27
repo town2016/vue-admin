@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.link-type {
+    color: #0099ff;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.el-dialog__header {
+    background-color: #6495ED;
+    .el-dialog__title {
+        color: #fff;
+        font-size: 16px;
+    }
+    .el-dialog__headerbtn {
+        i {
+            color: #fff;
+        }
+    }
+}
+
+.formGroup {
+    .noRadiusRight input.el-input__inner {
+        border-radius: 4px 0 0 4px;
+    }
+    .noRadiusLeft input.el-input__inner {
+        border-radius: 0px 4px 4px 0;
+        margin-left: -1px;
+    }
+    .noRadiusRight.el-input__inner {
+        border-radius: 4px 0 0 4px;
+    }
+    .noRadiusLeft.el-input__inner {
+       border-radius: 0px 4px 4px 0;
+        margin-left: -1px;
+    }
+}
+
+._danger {
+    color: #ff0000;
+}
+
+._success {
+    color: #7CFC00;
+}
+
+._primary {
+    color: #6495ED;
+}
+
+.required:before {
+    content: "*";
+    color: #f56c6c;
+    margin-right: 4px;
+}
+
+.tips {
+    position: absolute;
+    color: #f56c6c;
+    text-align: left;
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+.error .el-upload--picture-card {
+    border-color: #f56c6c;
+}

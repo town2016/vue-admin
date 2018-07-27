@@ -1,0 +1,158 @@
+export const states = {
+	'0':'待审核',
+	'1':'已认证',
+	'2':'认证失败'
+}
+
+export const formModel = [
+	{
+		group:true,
+		label:'申请时间',
+		elemType:'group',
+		childs:[
+			{
+				elemType:'select',
+				label:'请选择......',
+				prop:'city',
+				defaultValue:'',
+				col:'label',
+				colVal:'value',
+				classes:'noRadiusRight',
+				width:109,
+				options:[
+					{label:'前天',value:'shenzhen'},
+					{label:'昨天',value:'dongguan'},
+					{label:'今天',value:'guangzhou'}
+				]
+			},
+			{
+				elemType:'datetimerange',
+				label:'请选择时间范围......',
+				prop:'driverSchool',
+				defaultValue:'',
+				classes:'noRadiusLeft',
+				col:'label',
+				colVal:'value',
+				width:217,
+				options:[
+					{label:'深港',value:'shenzhen'},
+					{label:'广仁',value:'dongguan'},
+					{label:'港安',value:'guangzhou'}
+				]
+			}
+		]
+	},
+	{
+		elemType:'select',
+		label:'认证状态',
+		prop:'state',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'未审核',value:'shenzhen'},
+			{label:'已审核',value:'dongguan'},
+			{label:'审核未通过',value:'guangzhou'}
+		]
+	},
+	{
+		elemType:'select',
+		label:'车辆类型',
+		prop:'carType',
+		defaultValue:'',
+		col:'label',
+		colVal:'value',
+		options:[
+			{label:'深港',value:'shenzhen'},
+			{label:'广仁',value:'dongguan'},
+			{label:'港安',value:'guangzhou'}
+		]
+	},
+	{
+		group:true,
+		label:'车辆搜索',
+		elemType:'group',
+		childs:[
+			{
+				elemType:'select',
+				label:'请选择......',
+				prop:'searchType',
+				defaultValue:'',
+				width:109,
+				col:'label',
+				classes:"noRadiusRight",
+				colVal:'value',
+				options:[
+					{label:'教练名称',value:'all'},
+					{label:'教练电话',value:'inner'},
+					{label:'练考车牌',value:'other'}
+				]
+			},
+			{
+				elemType:'input',
+				label:'请输入......',
+				prop:'content',
+				classes:"noRadiusLeft",
+				width:109,
+				defaultValue:''
+			}
+		]
+	}
+]
+
+
+export const tableModel = [
+	{
+		type:'selection',
+		width:50
+	},
+	{
+		type:'index',
+		width:50
+	},
+	{
+		prop:'allpyTime',
+		label:'申请时间',
+		width:180
+	},
+	{
+		prop:'subjectType',
+		label:'车辆类型',
+		width:120
+	},
+	{
+		prop:'address',
+		label:'教练姓名',
+		width:100
+	},
+	{
+		prop:'areas',
+		label:'联系方式',
+		width:120
+	},
+	{
+		prop:'tel',
+		label:'所属驾校',
+		width:200
+	},
+	{
+		prop:'remark',
+		label:'备注'
+	}
+]
+
+
+export const tableData = [
+	{
+		id:1,
+		allpyTime:'2017-11-12 10:30:20',
+		subjectType:'C1',
+		carNo:'粤B1234学',
+		address:'XKK',
+		areas:'135456465654',
+		tel:'深港',
+		state:1,
+		remark:''
+	}
+	
+]
