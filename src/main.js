@@ -7,8 +7,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'base/css/common.scss'
 import "babel-polyfill";
-import plugins from '@/base/js/plugins';
-
+import plugins from '@/plugins/plugins';
+import store from './store'
 import VueQuillEditor from 'vue-quill-editor'
  
 // require styles
@@ -27,6 +27,7 @@ Vue.use(VueQuillEditor)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

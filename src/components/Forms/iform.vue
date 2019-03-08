@@ -1,15 +1,9 @@
 <template>
   <div class="iform">
-    <el-form :model='iformData' :validate-on-rule-change='false' :rules="iRules" :ref="formName" :label-width="labelWidth + 'px' "  :inline='inline' :disabled='disabled'>
+    <el-form :model='iformData' :validate-on-rule-change='false' :rules="!disabled ? iRules : {}" :ref="formName" :label-width="labelWidth + 'px' "  :inline='inline' :disabled='disabled' v-update='formName'>
       <el-row>
-        <el-col v-for='(item, index) in iformModel' :span='!item.colSpan?colSpan:item.colSpan' :key='index'>
-          <v-formGroup
-            v-if='item.group && item.visible !== false'
-            :formModel='item.childs'
-            :formData='iformData'
-            :label='item.label'>
-          </v-formGroup>
-          <el-form-item  :prop="item.prop" :label="item.label" v-else-if='item.visible !== false' :class='item.classes'>
+        <el-col v-for='(item, index) in iformModel' :lg='!item.colSpan?colSpan:item.colSpan' :md='!item.mdSpan?8:item.mdSpan' :sm='!item.smSpan?8:item.smSpan' :xs='!item.smSpan?8:item.smSpan'  :key='index'>
+          <el-form-item  :prop="item.prop" :label="item.label" v-if='item.visible(iformData, iformModel, index)' :class='item.classes' :label-width='!item.labelWidth ? labelWidth + "px" : item.labelWidth'>
             <el-input
               class="cusInput"
               v-if=" item.elemType == 'input' "
@@ -17,8 +11,9 @@
               v-model="iformData[item.prop]"
               :maxlength = 'item.maxlength'
               :readonly='item.readonly'
+              :disabled='item.disabled'
               :placeholder="item.placeholder?item.placeholder:'请输入'+item.label"
-              @change='item.onChange($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
               :style="{width:item.width+'!important'}">
               <template slot="append" v-if="item.slot != undefined ">{{item.slot}}</template>
             </el-input>
@@ -28,31 +23,35 @@
               v-model="iformData[item.prop]"
               :maxlength = 'item.maxlength'
               :readonly='item.readonly'
+              resize='both'
               :placeholder="item.placeholder?item.placeholder:'请输入'+item.label+'......'"
-              @change='item.onChange($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
               :style="{width:item.width+'!important'}">
             </el-input>
             <el-select
-              clearable
+              :clearable='item.clearable === false ? false : true'
               v-else-if=" item.elemType == 'select' "
               v-model="iformData[item.prop]"
+              :filterable='item.filterable'
+              :multiple='item.multiple'
               :placeholder="item.placeholder?item.placeholder:'请选择'+item.label"
-              @change='item.onChange($event, formModel, formData, index)'
-              @focus='item.onFocus($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
+              @focus='item.onFocus($event, iformModel, iformData, index)'
               :style="{width:item.width+'!important'}">
               <el-option
                 v-for=" (option, index) in item.options "
                 :key="index"
+                :disabled="option.disabled"
                 :label="option[item.col]"
                 :value="option[item.colVal]">
               </el-option>
             </el-select>
             <el-date-picker
-              :editable='dateEditable'
+              :editable='item.dateEditable'
               clearable v-else-if=" item.elemType == 'date' "
               v-model="iformData[item.prop]"
               :type="item.type"
-              @change='item.onChange($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
               :placeholder="item.placeholder?item.placeholder:item.label"
               :style="{width:item.width+'!important'}">
             </el-date-picker>
@@ -60,7 +59,7 @@
               v-else-if=" item.elemType == 'checkbox' "
               v-model="iformData[item.prop]"
               :placeholder="item.placeholder?item.placeholder:item.label"
-              @change='item.onChange($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
               :style="{width:item.width+'important'}">
               <el-checkbox
                 v-for='(option, oindex) in item.options'
@@ -68,16 +67,35 @@
                 {{option[item.col]}}
               </el-checkbox>
             </el-checkbox-group>
+            <el-checkbox-group
+              v-else-if=" item.elemType == 'checkbox_label' "
+              v-model="iformData[item.prop]"
+              :placeholder="item.placeholder?item.placeholder:item.label"
+              @change='item.onChange($event, iformModel, iformData, index)'
+              :style="{width:item.width+'important'}">
+              <el-checkbox
+                v-for='(option, oindex) in item.options'
+                :label="option[item.colVal]+'_' +option[item.col]" :key='oindex'>
+                {{option[item.col]}}
+              </el-checkbox>
+            </el-checkbox-group>
             <el-radio-group
               v-else-if=" item.elemType == 'radio' "
               v-model="iformData[item.prop]"
-              @change='item.onChange($event, formModel, formData, index)'
+              size='small'
+              @change='item.onChange($event, iformModel, iformData, index)'
               :style="{width:item.width+'important'}">
               <el-radio
                 v-for='(option, rindex) in item.options'
+                v-if='!item.type'
                 :label="option[item.colVal]" :key='rindex'>
                 {{option[item.col]}}
               </el-radio>
+              <el-radio-button
+                v-else
+                :label="option[item.colVal]" :key='rindex'>
+                {{option[item.col]}}
+              </el-radio-button>
             </el-radio-group>
             <el-time-picker
               v-else-if=" item.elemType == 'time' "
@@ -89,11 +107,11 @@
               placeholder="请选择时间点">
             </el-time-picker>
             <el-date-picker
-              :editable='dateEditable'
+              :editable='item.dateEditable'
               clearable
               v-else-if=' item.elemType == "daterange"'
               v-model="iformData[item.prop]"
-              @change='item.onChange($event, formModel, formData, index)'
+              @change='item.onChange($event, iformModel, iformData, index)'
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
@@ -101,24 +119,15 @@
               :picker-options="item.options"
               :style="{width:item.width+'!important'}">
             </el-date-picker>
-            <v-searchTree v-else-if='item.elemType === "searchTree"'
-              ref='searchTree'
-              :treeData = 'item.options'
-              :showCheckbox='false'
-              :expandOnClick='false'
-              :options='item.props'
-              :open='false'
-              @click='item.onClick($event, formModel, formData, index)'
-              @setCurOrg='_setModel($event, iformData, item.prop)'>
-            </v-searchTree>
             <div v-else-if='item.elemType === "temp"' v-html="item.temp(iformData[item.prop])"></div>
             <el-switch
               v-else-if='item.elemType === "switch"'
               v-model="iformData[item.prop]"
               :active-text="item.activeText"
+              @change='item.onChange($event, formModel, iformData, index)'
               :inactive-text="item.inactiveText">
             </el-switch>
-            <div v-else-if='item.elemType === "div"'>{{!iformData[item.prop]?item.placeholder:iformData[item.prop]}}</div>
+            <div v-else-if='item.elemType === "div"' v-html='item.format ? item.format(iformData, item.prop) : iformData[item.prop]'></div>
           </el-form-item>
         </el-col>
         <div style="float: left;" >
@@ -132,15 +141,13 @@
 </template>
 
 <script>
-import formGroup from '@/components/Forms/formGroup'
-import searchTree from '@/components/searchTree/searchTree'
+import {mapMutations, mapGetters} from 'vuex'
 export default {
-  name: 'iform',
+  name: 'Iform',
   data () {
     return {
-      iformModel: [],
+      iformModel: this.$store.state.form[this.formName+'_FormModel'],
       iformData: {},
-      dateEditable: false,
       iRules: {}
     }
   },
@@ -198,6 +205,18 @@ export default {
       default () {
         return false
       }
+    },
+    autoValidate: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
+    isSync: {
+      type: Boolean,
+      default () {
+        return true
+      }
     }
   },
   watch: {
@@ -209,32 +228,57 @@ export default {
     },
     iformData: {
       handler (val) {
-        this.$emit('sendFormData', this.iformData)
+        /*
+         * 发送表单数据到业务组件中
+         */
+        this.$emit('$update', this.iformData)
+        /*
+         * 默认将各自的表单信息同步到vuex中对应的表单formData中
+         */
+        if (this.isSync) {
+          // 调用vuex的mutation同步数据
+          this.syncFormData({formData: val, formName: this.formName})
+        }
       },
       deep: true
     },
-    formModel: {
+    iformModel: {
       handler (val) {
+        // 根据表单模型数据的变化
         this._initRules()
       },
       deep: true
-    }
+    },
+    /* validateting: {
+      handler (val) {
+        !val && this.clearValidate()
+      },
+      deep: true
+    } */
   },
   created () {
-    let formData = {}
     this._initRules()
-    this.initForm(this.formModel, formData)
+    this.initForm(this.iformModel)
   },
   methods: {
-    // 初始化验证规则
+    /*
+     * 初始化验证规则
+     */
     _initRules () {
+      /*
+       * 判断是否存在表单验证规则
+       */
       if (Object.keys(this.rules).length === 0) {
-        this.iRules = this.initRules(this.formModel)
+        this.iRules = this.initRules(this.iformModel)
       } else {
         this.iRules = this.rules
       }
     },
-    initForm (list, formData) {
+    /*
+     * 初始化表单数据
+     */
+    initForm (list) {
+      let formData = {}
       list.map(item => {
         if (item.group) {
           this.initForm(item.childs, formData)
@@ -245,34 +289,72 @@ export default {
             formData[item.prop] = this.formData[item.prop]
           }
           if (!item.onChange) {
-            item.onChange = () => {}
+            item.onChange = ($event, formModel, formData, index) => {}
+          }
+          if (item.visible === undefined) {
+            item.visible = (formData, formModel, index) => { return true }
           }
           if (!item.onFocus) {
             item.onFocus = () => {}
           }
         }
       })
+      /*
+       * 将初始化的formData和props => formData合并
+       */
       this.iformData = this.clearObj(Object.assign({}, formData, this.formData))
-      this.$set(this, 'iformModel', this.formModel)
-    },
-    resetForm () {
-      this.$refs[this.formName].resetFields()
-    },
-    validate () {
-      this.$refs[this.formName].validate((valid) => {
-        if (valid) {
-          this.$emit('submit', this.iformData)
+      /*
+       * 设置表单渲染的模型
+       */
+      this.$set(this, 'iformModel', list)
+      /*
+       * 执行表单数据里的初始化change事件
+       */
+      this.iformModel.map((item, index) => {
+        if (item.onChange) {
+          if (this.iformData[item.prop]) {
+            item.onChange(this.iformData[item.prop], this.iformModel, this.iformData, index)
+          }
         }
       })
     },
-    _setModel ($event, iformData, prop) {
-      iformData[prop] = $event[prop]
-    }
+    /*
+     * 重置表单
+     */
+    resetForm () {
+      this.$refs[this.formName].resetFields()
+      if (this.$refs[this.formName + 'searchTree']) {
+        this.$refs[this.formName + 'searchTree'][0].resetTree()
+      }
+    },
+    /*
+     * 手动获取当前表单的数据
+     */
+    getFormData () {
+      return this.iformData
+    },
+    /*
+     * 表单验证
+     */
+    validate () {
+      let status = false
+      this.$refs[this.formName].validate((valid) => {
+        status = valid
+      })
+      return status
+    },
+    /*
+     * 清除校验的信息
+     */
+    clearValidate () {
+      this.$refs[this.formName].clearValidate()
+    },
+    ...mapMutations([
+      'syncFormData',
+      'setValidateForm'
+    ])
   },
-  components: {
-    'v-formGroup': formGroup,
-    'v-searchTree': searchTree
-  }
+  components: {}
 }
 </script>
 
