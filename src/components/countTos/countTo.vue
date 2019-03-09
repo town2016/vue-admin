@@ -12,55 +12,55 @@
 
 <script>
 	export default{
-		name:"countTo",
-		data(){
+		name: "countTo",
+		data () {
 			return {
-				count:0,
-				timer:null
+				count: 0,
+				timer: null
 			}
 		},
-		props:{
+		props: {
 			startVal:{
-				type:[Number,String],
-				default(){
+				type: [Number, String],
+				default () {
 					return 0
 				}
 			},
-			endVal:{
-				type:[Number,String],
-				default(){
+			endVal: {
+				type: [Number, String],
+				default () {
 					return 0
 				}
 			},
-			duration:{
-				type:[Number,String],
-				default(){
+			duration: {
+				type: [Number, String],
+				default () {
 					return 500
 				}
 			}
 		},
-		mounted(){
+		mounted () {
 			this.$nextTick(() =>{
-				this._countTo();
+				this._countTo()
 			})
 		},
-		methods:{
-			_countTo(){
-				var speed = Math.floor((this.endVal - this.startVal)/(this.duration/20));
-				if(speed<1){
-					this.count = this.endVal;
-				}else{
-					var buffer = 0;
-					this.timer = null;
+		methods: {
+			_countTo () {
+				var speed = Math.floor((this.endVal - this.startVal)/(this.duration/20))
+				if (speed < 1) {
+					this.count = this.endVal
+				} else {
+					var buffer = 0
+					this.timer = null
 					this.timer = setInterval(() =>{
-						buffer += speed;
-						if(buffer >= this.endVal){
-							window.clearInterval(this.timer);
-							this.count = this.endVal;
+						buffer += speed
+						if (buffer >= this.endVal) {
+							window.clearInterval(this.timer)
+							this.count = this.endVal
 						}else{
-							this.count = buffer;
+							this.count = buffer
 						}
-					},20)
+					}, 20)
 				}
 				
 			}

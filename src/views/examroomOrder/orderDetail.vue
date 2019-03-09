@@ -34,7 +34,6 @@
 					},
 					columns:2
 				}
-				
 			}
 		},
 		components:{

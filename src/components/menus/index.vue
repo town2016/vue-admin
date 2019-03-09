@@ -11,10 +11,10 @@
 <script>
 	import menuTree from './menuTree'
 	export default {
-		name:'menus',
-		data(){
+		name: 'menus',
+		data () {
 			return {
-				menus:[
+				menus: [
 					{
 						label: '表单',
 						id: 'forms',
@@ -38,8 +38,8 @@
 				]
 			}
 		},
-		components:{
-			'v-menuTree':menuTree
+		components: {
+			'v-menuTree': menuTree
 		}
 	}
 </script>

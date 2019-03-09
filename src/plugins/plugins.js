@@ -1,9 +1,10 @@
-/*import iform from '@/components/iform/iform'
-import newIform from '@/components/iform/newIform'
+import iform from '@/components/Forms/iform'
 import itable from '@/components/table/itable'
+import dtable from '@/components/table/dtable'
 import dialog from '@/components/dialog/dialog'
+import upload from '@/components/upload/upload'
 import title from '@/components/title/title'
-import upload from '@/components/upload/upload'*/
+import countTo from '@/components/countTos/countTo'
 import {storages, deepClone, getDataType, resetObj} from '@/utils/common'
 import * as validators from '@/utils/validator'
 // import store from '../store/index'
@@ -13,7 +14,14 @@ let events = {
 let plugins = {}
 plugins.install = (Vue) => {
   Vue.mixin({
-    components: {}
+    components: {
+      iTitle: title,
+      iForm: iform,
+      iDialog: dialog,
+      iTable: itable,
+      iDtable: dtable,
+      iCountTo: countTo
+    }
   })
   Vue.directive('visible', {
     bind (el, binding) {
@@ -93,6 +101,22 @@ plugins.install = (Vue) => {
         }
       }, false)
     })
+  }
+  Vue.prototype.timeFormate = time => {
+      if (time.toLocaleDateString) {
+          var timeStr = time.toLocaleDateString();
+          var timeArr = timeStr.split('/');
+          timeArr.map((item,index) =>{
+            if(parseInt(item)<10){
+              item = "0"+item;
+              timeArr[index] = item;
+            }
+          });
+          timeStr = timeArr.join('-');
+          return timeStr;
+      } else {
+          return time;
+      }
   }
 }
 

@@ -13,7 +13,7 @@
 		data() {
 			return {
 				menus: [
-					/*{
+					{
 						label: '资源管理',
 						id: 'resource',
 						childs: [
@@ -166,7 +166,7 @@
 								path: '/seting'
 							}
 						]
-					},*/
+					},
 					{
 						label: '表单',
 						id: 'forms',
@@ -191,7 +191,7 @@
 						label: '表格',
 						id: 'tables',
 						childs: [{
-							label: '普通表格',
+							label: '表格',
 							name: 'tables',
 							id: 'tables-default',
 							path: '/tables'
@@ -216,16 +216,7 @@
 							id: 'calendars',
 							path: '/calendars'
 						}]
-					},{
-						label: '时间选择',
-						id: 'timepicker',
-						childs: [{
-							label: '时间选择器',
-							name: 'ctimepicker',
-							id: 'ctimepicker',
-							path: '/ctimepicker'
-						}]
-					},{
+					}, {
 						label: '富文本',
 						id: 'editor',
 						childs: [{

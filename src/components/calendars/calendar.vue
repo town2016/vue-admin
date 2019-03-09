@@ -2,14 +2,14 @@
 	<div class="calendar">
 		<ul class="todoList clearfix">
 			<li v-for="(date,index) in dateList" 
-				 :class="{'active':selected.indexOf(index)>=0,'default':date.state=='default','blue':date.state=='blue','green':date.state=='default'}" 
+				 :class="{'active':selected.indexOf(index) >= 0,'default':date.state === 'default','blue':date.state === 'blue','green':date.state === 'default'}" 
 				 :key="index"
-				 @click="getTodoList(date,index)">
+				 @click="selectionHandler(date, index)">
 				<span>{{date.day}}</span>
 				<span>{{date.week}}</span>
 			</li>
 			<li class="cusTime" v-if="picker">
-				<el-date-picker placeholder='自定义时间' v-model="cusTime" @change="setCusTime"></el-date-picker>
+				<el-date-picker placeholder='自定义时间' v-model='cusTime' @change="setCusTime"></el-date-picker>
 			</li>
 		</ul>
 	</div>
@@ -17,95 +17,114 @@
 
 <script>
 	export default {
-		name:'calendar',
-		data(){
+		name: 'calendar',
+		data () {
 			return {
-				dateList:[],
-				selected:[],
-				selectedDates:[],
-				cusTime:'',
+				dateList: [], // 默认日程表
+				selected: [], // 已选择的日程的下标
+				selectedDates: [], // 已选择了日程具体时间
+				cusTime: '' // 自定义的时间
 			}
 		},
-		props:{
-			mulity:{
-				type:[Boolean,String],
-				default(){
+		props: {
+		  /*
+		   * 是否多选
+		   */
+			mulity: {
+				type: [Boolean, String],
+				default () {
 					return undefined
 				}
 			},
-			picker:{
-				type:[Boolean,String],
+			/*
+			 * 是否出现自定义日期选择框
+			 */
+			picker: {
+				type: [Boolean, String],
 				default(){
 					return undefined
 				}
 			}
 		},
-		created(){
-			this.makeCalendar();
-			this.getTodoList(this.dateList[0],0);
+		created () {
+			this.makeCalendar()
+			/*
+			 * 默认选中当日
+			 */
+			this.selectionHandler(this.dateList[0], 0)
 		},
 		methods:{
-			makeCalendar(){
-				const dayTimes = 86400000;
-				const timeStamp = new Date().setHours(0,0,0,0);
-				for(var i = 0;i<14;i++){
-					var times = timeStamp+dayTimes*i;
-					this.dateList.push(this.dateFactory(times));
-				};
+		  /*
+		   * 创建日程表
+		   */
+			makeCalendar () {
+				const dayTimes = 86400000
+				const timeStamp = new Date().setHours(0, 0, 0, 0)
+				for (var i = 0; i < 14; i++) {
+					var times = timeStamp+dayTimes*i
+					this.dateList.push(this.dateFactory(times))
+				}
 			},
-			dateFactory(times){
-				const weeks = ["日", "一", "二", "三", "四", "五", "六"];
-				var newDate = new Date(times);
-				var dateObj = {};
-				dateObj.day = this.timeFormate(newDate).substr(5);
-				dateObj.week = '周'+weeks[newDate.getDay()];
-				if(newDate.getDay()%2 == 0){
-					dateObj.state = 'blue';
-				}else if(newDate.getDay()%3 == 0){
-					dateObj.state = 'green';
-				}else{
-					dateObj.state = 'default';
+			/*
+			 * 日期格式转换
+			 */
+			dateFactory (times) {
+				const weeks = ['日', '一', '二', '三', '四', '五', '六']
+				var newDate = new Date(times)
+				var dateObj = {}
+				dateObj.day = this.timeFormate(newDate).substr(5)
+				dateObj.week = '周' + weeks[newDate.getDay()]
+				if (newDate.getDay() % 2 === 0) {
+					dateObj.state = 'blue'
+				} else if (newDate.getDay() % 3 === 0) {
+					dateObj.state = 'green'
+				} else {
+					dateObj.state = 'default'
 				}
 				
-				dateObj.value = newDate;
+				dateObj.value = newDate
 				
-				return dateObj;
+				return dateObj
 			},
-			
-			getTodoList(_date,_index){
-				if(_index == -1){
-					this.isShow = false;
-				}else{
-					this.isShow = true;
+			/*
+			 * 返回选择的日期
+			 */
+			selectionHandler (_date,_index) {
+				if (_index === -1) {
+					this.isShow = false
+				} else {
+					this.isShow = true
 				}
-				if(this.mulity){
-					var index = this.selected.indexOf(_index);
-					if(index>=0){
-						this.selected.splice(index,1);
-						this.selectedDates.splice(_date,1);
-					}else{
-						this.selected.push(_index);
-						this.selectedDates.push(_date);
-					};
-				}else{
-					this.$set(this,'selected',[_index]);
-					this.$set(this,'selectedDates',[_date]);
+				if (this.mulity) {
+					var index = this.selected.indexOf(_index)
+					if (index >= 0) {
+						this.selected.splice(index,1)
+						this.selectedDates.splice(_date,1)
+					} else {
+						this.selected.push(_index)
+						this.selectedDates.push(_date)
+					}
+				} else {
+					this.$set(this,'selected',[_index])
+					this.$set(this,'selectedDates',[_date])
 				}
-				this.$emit('on-change',this.selectedDates);
+				this.$emit('on-change',this.selectedDates)
 			},
-			setCusTime(value){
-				if(value){
-					var _date = this.dateFactory(value);
+			/*
+			 * 设置自定义的时间
+			 */
+			setCusTime (value) {
+				if (value) {
+					var _date = this.dateFactory(value)
 					var _index = -1;
 					this.dateList.map((item,index) =>{
-						if(item.day == _date.day){
-							_index = index;
+						if (item.day === _date.day) {
+							_index = index
 						}
-					});
-					this.getTodoList(_date,_index);
-				};
-			},
-			
+					})
+					this.selectionHandler(_date,_index)
+				}
+			}
 		}
 	}
 </script>

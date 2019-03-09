@@ -11,9 +11,9 @@
 <script>
 	import countTo from './countTo'
 	export default {
-		name:'countTos',
-		components:{
-			'v-countTo':countTo
+		name: 'countTos',
+		components: {
+			'v-countTo': countTo
 		}
 	}
 </script>

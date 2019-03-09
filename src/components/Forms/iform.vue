@@ -1,7 +1,10 @@
 <template>
   <div class="iform">
+    <div class="formHeader">
+      <slot name='header'></slot>
+    </div>
     <el-form :model='iformData' :validate-on-rule-change='false' :rules="!disabled ? iRules : {}" :ref="formName" :label-width="labelWidth + 'px' "  :inline='inline' :disabled='disabled' v-update='formName'>
-      <el-row>
+      <el-row class='clearfix'>
         <el-col v-for='(item, index) in iformModel' :lg='!item.colSpan?colSpan:item.colSpan' :md='!item.mdSpan?8:item.mdSpan' :sm='!item.smSpan?8:item.smSpan' :xs='!item.smSpan?8:item.smSpan'  :key='index'>
           <el-form-item  :prop="item.prop" :label="item.label" v-if='item.visible(iformData, iformModel, index)' :class='item.classes' :label-width='!item.labelWidth ? labelWidth + "px" : item.labelWidth'>
             <el-input
@@ -141,13 +144,13 @@
 </template>
 
 <script>
-import {mapMutations, mapGetters} from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Iform',
   data () {
     return {
-      iformModel: this.$store.state.form[this.formName+'_FormModel'],
-      iformData: {},
+      iformModel: this.formModel.length > 0 ? this.formModel : this.$store.state.form[this.formName+'_FormModel'] || [],
+      iformData: Object.keys(this.formData).length > 0 ? this.formData : this.$store.state.form[this.formName+'_FormData'],
       iRules: {}
     }
   },
@@ -242,6 +245,18 @@ export default {
       },
       deep: true
     },
+    /*
+     * 监听vuex中的form的变化，同步数据到各个表单中
+     */
+    '$store.state.form': {
+      handler (val) {
+        this.iformData = val[`${this.formName}_FormData`]
+      },
+      deep: true
+    },
+    /*
+     * 监听表单模型的变化，重新生成校验规则
+     */
     iformModel: {
       handler (val) {
         // 根据表单模型数据的变化
@@ -257,6 +272,7 @@ export default {
     } */
   },
   created () {
+    console.log(this.formData)
     this._initRules()
     this.initForm(this.iformModel)
   },
@@ -283,17 +299,29 @@ export default {
         if (item.group) {
           this.initForm(item.childs, formData)
         } else {
-          if (!this.formData[item.prop]) {
+          /*
+           * 初始化表单数据
+           */
+          if (!this.iformData[item.prop]) {
             formData[item.prop] = item.defaultValue !== undefined ? item.defaultValue : ''
           } else {
-            formData[item.prop] = this.formData[item.prop]
+            formData[item.prop] = this.iformData[item.prop]
           }
+          /*
+           * 给每个表单控件添加change时间
+           */
           if (!item.onChange) {
             item.onChange = ($event, formModel, formData, index) => {}
           }
+          /*
+           * 给每个表单控件添加显示隐藏函数
+           */
           if (item.visible === undefined) {
             item.visible = (formData, formModel, index) => { return true }
           }
+          /*
+           * 给每个表单控件添加focus函数
+           */
           if (!item.onFocus) {
             item.onFocus = () => {}
           }
@@ -353,8 +381,7 @@ export default {
       'syncFormData',
       'setValidateForm'
     ])
-  },
-  components: {}
+  }
 }
 </script>
 
