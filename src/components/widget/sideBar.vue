@@ -13,7 +13,7 @@
 		data() {
 			return {
 				menus: [
-					{
+					/* {
 						label: '资源管理',
 						id: 'resource',
 						childs: [
@@ -166,7 +166,7 @@
 								path: '/seting'
 							}
 						]
-					},
+					}, */
 					{
 						label: '表单',
 						id: 'forms',

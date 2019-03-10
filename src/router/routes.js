@@ -10,7 +10,8 @@ export const routes = [
 	{
 		path:'/forms',
 		name:'forms',
-		component:forms
+		component:forms,
+		meta: {crumbs: [{name: '表单组件', path: '/forms'}], name: '表单组件'}
 	},
 	{
 		path:'/home',
@@ -20,31 +21,37 @@ export const routes = [
 	{
 		path:'/menus',
 		name:'menus',
-		component:menus
+		component:menus,
+		meta: {crumbs: [{name: '菜单组件', path: '/menus'}], name: '菜单组件'}
 	},
 	{
 		path:'/tables',
 		name:'tables',
-		component:tables
+		component:tables, 
+		meta: {crumbs: [{name: '表格组件', path: '/tables'}], name: '表格组件'}
 	},
 	{
 		path:'/countTos',
 		name:'countTos',
-		component:countTos
+		component:countTos,
+		meta: {crumbs: [{name: '数字递增组件', path: '/countTos'}], name: '数字递增组件'}
 	},
 	{
 		path:'/calendars',
 		name:'calendars',
-		component:calendars
+		component:calendars,
+		meta: {crumbs: [{name: '日程表组件', path: '/calendars'}], name: '日程表组件'}
 	},
 	{
 		path:'/ctimepicker',
 		name:'ctimepicker',
-		component:ctimepicker
+		component:ctimepicker,
+		meta: {crumbs: [{name: '日程表组件', path: '/calendars'}], name: '日程表组件'}
 	},
 	{
 		path:'/editors',
 		name:'editors',
-		component:editors
+		component:editors,
+		meta: {crumbs: [{name: '富文本组件', path: '/editors'}], name: '富文本组件'}
 	}
 ]

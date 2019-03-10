@@ -4,6 +4,8 @@
 		<div class="container">
 			<v-sideBar></v-sideBar>
 			<div class="main-content">
+			  <v-taber></v-taber>
+			  <v-Crumbs></v-Crumbs>
 				<el-card :class="{'_blank':ishome}">
 					<router-view></router-view>
 				</el-card>
@@ -15,6 +17,8 @@
 <script>
 	import toper from 'components/widget/toper'
 	import sideBar from 'components/widget/sideBar'
+	import Crumbs from 'components/crumbs'
+	import taber from 'components/taber'
 	export default {
 		name:'layput',
 		data(){
@@ -38,7 +42,9 @@
 		},
 		components:{
 			'v-toper':toper,
-			'v-sideBar':sideBar
+			'v-sideBar':sideBar,
+			'v-Crumbs': Crumbs,
+			'v-taber': taber
 		}
 	}
 </script>
