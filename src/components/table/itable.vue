@@ -4,6 +4,7 @@
 			:data="tableData"
 			:border="border"
 			highlight-current-row
+			:span-method="merge"
 			@current-change="handleCurrentChange"
 			@selection-change="selectChangeHandler"
 			style="width: 100%;">
@@ -92,7 +93,15 @@
 				default(){
 					return ''
 				}
-			}
+			},
+			merge: {
+        type: Function,
+        default(){
+          return function () {
+            return {rowspan: 1, colspan: 1}
+          }
+        }
+      }
 		},
 		created () {},
 		methods: {

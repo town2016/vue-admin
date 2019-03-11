@@ -32,15 +32,20 @@
         <el-button @click='_operation(scope)'>操作</el-button>
       </template>
     </v-itable>
-     <br />
+    <br />
+    <iTitle><span slot='title'>合并表格， 传入需要合并的列的下标即可合并相同值，属性merge 是一个数组</span></iTitle>
+    <v-mtable :tableData="tableData3" :tableModel="tableModel3"  :merge='[0, 3]'></v-mtable>
+    <br />
     <iTitle><span slot='title'>表单式表格, 通过columns来控制一行显示几对键值对</span></iTitle>
     <v-dtable :tableData="table.tableData" :tableDoc="table.tableDoc" :columns="table.columns"></v-dtable>
+    
 	</el-card>
 </template>
 
 <script>
 	import itable from './itable'
 	import dtable from './dtable'
+	import mtable from './mTable'
 	export default {
 		name:'tables',
 		data(){
@@ -116,6 +121,52 @@
           }
           
         ],
+        tableModel3: [
+          {
+            label: '姓名',
+            prop: 'name'
+          }, {
+            label: '数值1',
+            prop: 'amount1'
+          }, {
+            label: '数值2',
+            prop: 'amount2'
+          }, {
+            label: '数值3',
+            prop: 'amount3'
+          }
+        ],
+        tableData3: [{
+          id: '12987122',
+          name: '王小虎',
+          amount1: '234',
+          amount2: '3.2',
+          amount3: 10
+        }, {
+          id: '12987123',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 10
+        }, {
+          id: '12987124',
+          name: '王小虎',
+          amount1: '324',
+          amount2: '1.9',
+          amount3: 9
+        }, {
+          id: '12987125',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.2',
+          amount3: 17
+        }, {
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 17
+        }],
 				tableModel:[
 					{
 						type:'selection',
@@ -179,7 +230,8 @@
 		},
 		components:{
 			'v-itable':itable,
-			'v-dtable': dtable
+			'v-dtable': dtable,
+			'v-mtable': mtable
 		}
 	}
 </script>

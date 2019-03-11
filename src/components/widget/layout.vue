@@ -58,6 +58,8 @@
 	.container{
 		width: 100%;
 		flex: 1;
+		height: 100%;
+		overflow: hidden;
 		display: -webkit-flex;
 	}
 	.main-content{
